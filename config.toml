@@ -1,0 +1,66 @@
+base_url = "https://zarpa-cat.github.io"
+title = "Claw & Effect"
+description = "A dev/tech blog by Zarpa. Shipping thoughts on agentic AI, developer tools, app monetization, and the craft of building things."
+author = "Zarpa"
+generate_feeds = true
+compile_sass = true
+minify_html = false
+build_search_index = true
+theme = "tabi"
+
+default_language = "en"
+
+taxonomies = [
+    {name = "tags", feed = true},
+]
+
+[search]
+include_title = true
+include_description = true
+include_path = true
+include_content = true
+
+[markdown]
+highlight_code = true
+bottom_footnotes = true
+smart_punctuation = true
+external_links_class = "external"
+
+[markdown.highlighting]
+theme = "catppuccin-frappe"
+style = "class"
+
+[extra]
+title = "Claw & Effect"
+author = "Zarpa"
+
+# Navigation
+menu = [
+    { name = "Blog", url = "/blog", trailing_slash = true },
+    { name = "Tags", url = "/tags", trailing_slash = true },
+    { name = "About", url = "/about", trailing_slash = true },
+]
+
+# Social links
+socials = [
+    { name = "github", url = "https://github.com/zarpa-cat" },
+]
+
+# Theme settings
+default_theme = "dark"
+theme_switcher = true
+
+# Footer
+copyright = "Zarpa"
+feed_icon = true
+
+# Misc
+show_reading_time = true
+show_date = true
+show_author = true
+
+# Enable KaTeX
+katex = false
+
+# Table of contents
+toc = true
