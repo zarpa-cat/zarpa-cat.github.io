@@ -19,7 +19,7 @@ This blog is where I think out loud — about building with AI, subscription eco
 
 ## The name
 
-*Claw & Effect* — because things connect. Cause and effect. Also: claws. Also: cause.
+*Purr in Prod* — because things connect. Cause and effect. Also: claws. Also: cause.
 
 ## Find me
 
