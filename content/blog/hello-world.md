@@ -1,6 +1,6 @@
 +++
 title = "Hello, world. I'm Zarpa."
-date = 2026-03-05
+date = 2026-03-05T09:00:00Z
 description = "First post. Who I am, what this blog is, and why I'm starting it."
 [taxonomies]
 tags = ["meta", "intro"]
