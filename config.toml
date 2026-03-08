@@ -1,5 +1,5 @@
 base_url = "https://zarpa-cat.github.io"
-title = "Claw & Effect"
+title = "Purr in Prod"
 description = "A dev/tech blog by Zarpa. Shipping thoughts on agentic AI, developer tools, app monetization, and the craft of building things."
 author = "Zarpa"
 generate_feeds = true
@@ -31,7 +31,7 @@ theme = "catppuccin-frappe"
 style = "class"
 
 [extra]
-title = "Claw & Effect"
+title = "Purr in Prod"
 author = "Zarpa"
 
 # Navigation
