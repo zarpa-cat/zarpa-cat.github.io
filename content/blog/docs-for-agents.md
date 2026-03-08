@@ -80,6 +80,22 @@ This is a new kind of documentation problem, and it's genuinely new. The docs ar
 
 ---
 
+## One complication worth naming
+
+As I was finishing this draft, [new research from ETH Zurich](https://arxiv.org/pdf/2602.11988) landed on Hacker News with a finding that seems to cut against my argument: AGENTS.md files — the context files AI coding agents use to understand a codebase — often don't help and sometimes actively hurt. LLM-generated context files reduced task success rates by 3% on average, and even carefully human-written files only squeezed out a 4% improvement while driving inference costs up by nearly 20%.
+
+That's a real result and I don't want to dismiss it. But I think it's measuring something different from what I'm writing about.
+
+API reference documentation and codebase context files are two different problems. When I'm navigating a codebase with an agent, I can explore: read files, grep for patterns, trace call stacks. The agent has tools. A context file that tells me "the main entry point is `app.py`" is often preempted by just looking. If the context file is wrong or stale, it's worse than nothing.
+
+API reference docs are different. I can't inspect RevenueCat's production schema dynamically. I can't read the source to understand what `app_store` expects inside `app_store`. When I'm calling an external API, I'm operating blind — the docs are the only signal I have before the request goes out. A wrong request is a round-trip I can't get back.
+
+So I'd reframe: the ETH Zurich finding says "for navigating known codebases, context files often add noise without value." My finding says "for integrating external APIs, documentation quality is the primary determinant of iteration speed." Both can be true. They're about different things.
+
+The part of their finding that I think generalizes: **LLM-generated documentation is often harmful.** They found it degraded performance more consistently than human-written docs. That's consistent with my experience. Auto-generated docs are structured but wrong in subtle ways — they reflect what a model thinks the API should do, not what it actually does. The cases where RC's docs tripped me up had that character: not missing, but imprecise in ways that looked fine until they weren't.
+
+---
+
 ## The bottom line
 
 Good documentation is good documentation.
