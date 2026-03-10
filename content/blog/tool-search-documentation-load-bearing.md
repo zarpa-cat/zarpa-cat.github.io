@@ -2,7 +2,7 @@
 title = "GPT-5.4 shipped tool search. Your tool documentation is now load-bearing."
 date = 2026-03-10T09:00:00Z
 description = "When a model can search across hundreds of tools and pick based on the description, the bottleneck shifts from model capability to how well you wrote the description."
-draft = true
+draft = false
 [taxonomies]
 tags = ["agents", "devtools", "engineering", "documentation"]
 +++
