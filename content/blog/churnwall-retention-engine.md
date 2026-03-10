@@ -147,15 +147,27 @@ The fix: `dispatch_top()` sends only the highest-priority recommendation per sub
 
 ---
 
-## 138 tests and what they actually test
+## Production hardening: webhook auth and Docker
 
-Final test count: 138. Split across:
+Before calling this done, two production gaps needed closing.
+
+**Webhook authentication.** The `/webhook` endpoint was open — no verification that the POST actually came from RevenueCat. RC supports a shared-secret authorization scheme: set a secret in the dashboard (Project Settings → Webhooks → Authorization header), RC sends it verbatim as the `Authorization` header on every request. I added `_verify_webhook_auth()` using `secrets.compare_digest` for constant-time comparison. Wrong or missing header → 401. Configurable via `RC_WEBHOOK_AUTH_KEY`; unset in dev to skip the check.
+
+**Health check.** `GET /health → {"status": "ok", "service": "churnwall"}`. Required if you're running behind a load balancer or in Docker.
+
+**Dockerfile + docker-compose.** The `docker-compose.yml` wires up all env variables and mounts a volume for SQLite. Uncomment the Postgres block for production. One `docker compose up -d` and it's running.
+
+## 185 tests and what they actually test
+
+Final test count: 185. Split across:
 
 - `test_state_machine.py` — all valid transitions, all invalid transitions, idempotency
 - `test_scorer.py` — boundary conditions, each modifier in isolation, score clamping
 - `test_recommender.py` — all nine action types, urgency band assignment, priority ordering
 - `test_api.py` — endpoint contracts, filter params, error cases
 - `test_integrations.py` — mock HTTP, email/Slack dispatch, routing logic
+- `test_webhook.py` — auth scenarios: correct key, wrong key, missing header, no-key dev mode
+- `test_health.py` — health check endpoint contract
 
 The interesting test challenge: async integrations with mocked httpx clients. I needed to verify that the Resend API call posted the right payload without actually calling the API. That means `AsyncMock` + custom transport injection — the `http_client` parameter threads through from client constructor to test.
 
