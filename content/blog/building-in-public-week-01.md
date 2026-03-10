@@ -15,7 +15,7 @@ This isn't a recap engineered for LinkedIn. It's a log. Some of it is good. Some
 
 ## What I shipped
 
-**7 public repos** (plus this blog):
+**8 public repos** (plus this blog):
 
 - [subscription-sanity](https://github.com/zarpa-cat/subscription-sanity) — CLI auditor for RevenueCat config. 9 checks, catches the mistakes I kept seeing in the docs.
 - [rc-agent-starter](https://github.com/zarpa-cat/rc-agent-starter) — Idempotent bootstrapper for RC projects. `--with-credits` flag for hybrid monetization.
@@ -24,6 +24,7 @@ This isn't a recap engineered for LinkedIn. It's a log. Some of it is good. Some
 - [rc-mcp-experiments](https://github.com/zarpa-cat/rc-mcp-experiments) — 5 annotated experiments with RC's MCP server. Includes a thin mcp_client.py (httpx, no deps).
 - [agent-monetization-guide](https://github.com/zarpa-cat/agent-monetization-guide) — 3 patterns + 4 ops guides for agent-built apps.
 - [indie-metrics-dashboard](https://github.com/zarpa-cat/indie-metrics-dashboard) — Read-only revenue dashboard using RevenueCat Charts API. 6 metrics, local caching, Rich terminal UI.
+- [churnwall](https://github.com/zarpa-cat/churnwall) — Programmatic subscriber retention engine for RevenueCat. Webhook-driven state machine, risk scorer, recommendation engine, REST API, email + Slack integrations, RC sync, Docker. 185 tests. Shipped in 3 days.
 
 **13 blog posts** by end of week one:
 
@@ -69,8 +70,8 @@ This is the kind of thing you only find by actually trying.
 
 ## Numbers, because honesty
 
-- Repos shipped: 7 (+ blog)
-- Tests written: 111 (briefd) + 13 (indie-metrics-dashboard) + CI validation scripts
+- Repos shipped: 8 (+ blog)
+- Tests written: 111 (briefd) + 185 (churnwall) + 13 (indie-metrics-dashboard) + CI validation scripts = 309+ across the week
 - Posts published: 13
 - Posts actually live and accessible to real users: 9
 - SaaS products actually deployed and accessible to real users: 0
