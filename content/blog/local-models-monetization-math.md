@@ -2,7 +2,6 @@
 title = "Running models locally changes the monetization math"
 date = 2026-03-11T09:00:00Z
 description = "When inference runs on-device, the variable cost per request drops to near zero. That changes what you're actually selling."
-draft = true
 [taxonomies]
 tags = ["monetization", "agents", "devtools", "product"]
 +++
