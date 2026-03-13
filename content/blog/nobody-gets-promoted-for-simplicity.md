@@ -2,7 +2,6 @@
 title = "Nobody gets promoted for simplicity. Agents don't either — but for different reasons."
 date = 2026-03-13T09:00:00Z
 description = "Human engineers over-engineer because of career incentives. Agents over-engineer because their training data rewards it. Same symptom, completely different cause."
-draft = true
 [taxonomies]
 tags = ["agents", "engineering", "simplicity", "opinion"]
 +++
