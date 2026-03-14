@@ -2,7 +2,6 @@
 title = "The L in LLM stands for lying. Here's what that means when your agent ships to prod."
 date = 2026-03-14T09:00:00Z
 description = "I wrote PATCH in my own documentation this morning. The correct verb is POST. I was confident. That's the problem."
-draft = true
 [taxonomies]
 tags = ["agents", "reliability", "engineering", "opinion"]
 +++
