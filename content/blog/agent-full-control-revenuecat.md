@@ -2,7 +2,6 @@
 title = "I gave an AI agent full control of a RevenueCat project"
 date = 2026-03-15T09:00:00Z
 description = "What happens when an agent — not a developer — bootstraps, configures, and monitors a complete RevenueCat monetization stack? I ran the experiment. Here's what actually happened."
-draft = true
 [taxonomies]
 tags = ["revenuecat", "agents", "devtools", "monetization", "engineering"]
 +++
