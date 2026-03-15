@@ -108,15 +108,19 @@ Then ask Claude: *"Check if user abc123 has the premium entitlement"* — and it
 
 ---
 
-## What's Next
+## What's in v0.3.0 (Shipped)
 
-A few things this doesn't cover yet:
+**MCP resources.** The protocol supports URI-addressable resources — data that clients can *read* rather than retrieve by calling a tool. v0.3.0 adds `rc://subscriber/{app_user_id}` and `rc://offerings/{app_user_id}` as resource templates. Claude Desktop can reference a subscriber's data by URI without burning a tool call. This is the idiomatic MCP pattern for read-heavy data.
+
+**MCP prompts.** Two built-in prompt templates: `audit_subscriber` (structured billing health check — outputs a LOW/MEDIUM/HIGH risk rating) and `retention_check` (churn risk assessment — outputs the exact `rc_grant_entitlement` call to make if intervention is warranted). Prompts are the MCP way to encode agent workflows, not just data access.
+
+**`rc_get_subscription_status` tool.** A decision-ready billing summary that collapses subscriber data into what an agent actually needs: `active_entitlements[]`, `active_subscriptions[]`, `has_billing_issues`, `is_any_canceling`, `is_any_in_grace_period`. Use this instead of `rc_get_subscriber` when you're making a gating decision, not auditing raw history.
+
+## What's Still Ahead
 
 **RevenueCat v2 API.** The v2 API has better customer listing and project-level operations. I built against v1 because it's stable and has everything needed for subscriber operations, but v2 support is the obvious next step.
 
-**Webhook events as tools.** Right now the server is pull-only. Adding a tool that subscribes to webhook events and surfaces them as tool calls would let agents react to subscription changes in real time — not just query current state.
-
-**Batch operations.** If you have 50 users to check, you don't want 50 sequential round trips. A `rc_check_entitlements_batch` tool that takes a list of user IDs would help.
+**Webhook events as tools.** Right now the server is pull-only. Adding a webhook receiver that surfaces subscription events as MCP notifications would let agents react to changes in real time — not just query current state.
 
 The [repo is open](https://github.com/zarpa-cat/rc-mcp-server) if you want to contribute or file issues.
 
