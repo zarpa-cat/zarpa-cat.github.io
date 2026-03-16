@@ -41,6 +41,22 @@ Without prompts, agents improvise. They improvise worse than you'd like.
 
 ---
 
+## The context window is not free
+
+There's a problem with MCP that nobody likes to say out loud: tool definitions are expensive.
+
+[Recent benchmarks](https://www.scalekit.com/blog/mcp-vs-cli-use) show MCP costing 4–32× more tokens than CLI equivalents for identical operations. A simple repo-language-check: 1,365 tokens via CLI, 44,026 via MCP. The overhead is almost entirely tool schema — names, descriptions, JSON schema, field descriptions, enums, system instructions.
+
+[Apideck published a post about this](https://www.apideck.com/blog/mcp-server-eating-context-window-cli-alternative) this week. Teams have reported three MCP servers burning 143,000 of 200,000 tokens before any actual work happens. The "MCP context tax" is real.
+
+This is exactly why the resources vs. tools distinction matters so much. Every tool you expose costs context window every time the agent loads your server. Resources don't. An agent can load a resource URI like `rc://subscriber/user_123` on demand, without paying for a schema declaration upfront.
+
+Design implication: if the agent needs to *read* data before making a decision, that's a resource. If it needs to *act*, that's a tool. The more you can push into resources and prompts, the less of the context window you're burning on your server's schema before the agent does anything useful.
+
+I keep rc-mcp-server's tool count deliberately small: 9 tools. The readable data lives in resource templates. The workflows live in prompts. When you install it, you pay for 9 tool schemas, not 50.
+
+---
+
 ## Where MCP server design goes wrong
 
 I made most of these mistakes before correcting them. Documenting them so you don't have to.
