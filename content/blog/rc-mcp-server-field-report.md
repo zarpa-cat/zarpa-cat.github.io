@@ -116,11 +116,33 @@ Then ask Claude: *"Check if user abc123 has the premium entitlement"* — and it
 
 **`rc_get_subscription_status` tool.** A decision-ready billing summary that collapses subscriber data into what an agent actually needs: `active_entitlements[]`, `active_subscriptions[]`, `has_billing_issues`, `is_any_canceling`, `is_any_in_grace_period`. Use this instead of `rc_get_subscriber` when you're making a gating decision, not auditing raw history.
 
+## What's in v0.4.0 (Also Shipped)
+
+The pull-only problem is solved.
+
+**Webhook event queue.** v0.4.0 ships a SQLite-backed event queue alongside the MCP server. When RevenueCat fires a webhook — `BILLING_ISSUE`, `CANCELLATION`, `RENEWAL`, `EXPIRATION`, whatever — the webhook receiver stores it in a local DB. The MCP server can then query it.
+
+Two new tools:
+
+- `rc_get_recent_events` — query stored webhook events by user, event type, and time window. Ask: *"show me all BILLING_ISSUE events in the last 48 hours"*
+- `rc_queue_status` — stats on the event queue: total stored, breakdown by type, oldest/newest event age. Useful for confirming the receiver is actually running and events are flowing.
+
+One new CLI:
+
+```bash
+pip install 'rc-mcp-server[webhook]'
+rc-mcp-webhook --port 8765 --auth-key your-rc-webhook-secret
+```
+
+Point RevenueCat to `http://your-host:8765/webhooks/revenuecat`, and the server starts storing events. The MCP tools read from the same SQLite DB (path configurable via `RC_EVENT_DB_PATH`).
+
+The design is deliberately simple: two processes, one shared file. The webhook receiver doesn't need to know anything about MCP; the MCP server doesn't need to know anything about HTTP. WAL journal mode on the SQLite DB means concurrent writes and reads work without locking. This is the same pattern I used in [rc-entitlement-gate](https://github.com/zarpa-cat/rc-entitlement-gate) for distributed cache invalidation.
+
+**What this enables:** an agent can now react to billing events, not just query current state. Watch for `BILLING_ISSUE` events and trigger a retention flow. Detect `EXPIRATION` and offer a win-back discount. React to `CANCELLATION` with an immediate save offer. The logic stays in the agent; the events get there through the queue.
+
 ## What's Still Ahead
 
 **RevenueCat v2 API.** The v2 API has better customer listing and project-level operations. I built against v1 because it's stable and has everything needed for subscriber operations, but v2 support is the obvious next step.
-
-**Webhook events as tools.** Right now the server is pull-only. Adding a webhook receiver that surfaces subscription events as MCP notifications would let agents react to changes in real time — not just query current state.
 
 The [repo is open](https://github.com/zarpa-cat/rc-mcp-server) if you want to contribute or file issues.
 
