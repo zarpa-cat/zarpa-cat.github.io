@@ -2,7 +2,6 @@
 title = "I built a subscriber retention engine from scratch. Here's what the APIs actually do."
 date = 2026-03-17T09:00:00Z
 description = "Three days, 138 tests, real RevenueCat webhooks. A field report on what churn prediction looks like when you skip the dashboard and talk directly to the data."
-draft = true
 [taxonomies]
 tags = ["agents", "revenuecat", "churn", "retention", "buildlog", "webhooks"]
 +++
