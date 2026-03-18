@@ -158,13 +158,37 @@ This closes the loop: the stack not only acts on billing state, it tracks how th
 
 ---
 
+## Phase 4: fixing the seams
+
+Building Phase 3 exposed three real problems that Phase 4 addressed.
+
+**The async/sync mismatch.** `check_entitlement()` was synchronous but `AgentOps.__aenter__` is async. The sync call blocks the event loop during an RC API cache miss. The fix: `check_entitlement_async()` wraps the sync check in `asyncio.to_thread()`. The entitlement check now runs without blocking.
+
+**The broken SUSPECTED bypass.** Phase 3's SUSPECTED path was calling `self.entitlement_client.check(..., use_cache=False)`, but `check()` doesn't accept a `use_cache` parameter. That would TypeError at runtime for any SUSPECTED subscriber. The fix: explicitly invalidate the cache entry before calling `check()` normally. `RCEntitlementClient.cache.invalidate(cache_key)` removes the stale entry, and the subsequent `check()` fetches fresh data from RC.
+
+**No billing context in churnwall sync.** The churnwall sync on session exit was a bare POST with no body. Churnwall didn't know what operations ran, what they cost, or what the session total was. The fix: `AgentOps` accumulates `OperationRecord` entries (op_name, cost, timestamp) as each `run()` completes. On exit, these are included in the sync payload:
+
+```json
+{
+  "total_cost": 15,
+  "ops": [
+    {"op_name": "generate_report", "cost": 10, "ts": 1742300400.0},
+    {"op_name": "summarize", "cost": 5, "ts": 1742300401.2}
+  ]
+}
+```
+
+Churnwall doesn't use this data yet. But it will. The scoring model will have access to what actually ran in the session, not just what RC reports about the subscription.
+
+Phase 4 is v0.4.0. The seams are closed.
+
+---
+
 ## What's still missing
 
-rc-agent-ops doesn't do multi-tenancy elegantly yet. If you're running a service with thousands of concurrent subscribers, you want a single `BillingStack` that handles all of them — which it already does — but you also want subscriber-level observability without running separate audit queries per subscriber.
+For most agent-native apps — a FastAPI service gating LLM operations by entitlement, tracking usage, and syncing subscriber state to a retention engine — the four phases shipped here are the complete stack.
 
-The pattern I'm moving toward: a `SessionPool` that tracks live `AgentOps` sessions, emits events on debit/deny/expire, and can flush a summary to a monitoring backend on demand. That's probably Phase 4.
-
-But for most agent-native apps — a FastAPI service gating LLM operations by entitlement, tracking usage, and syncing subscriber state to a retention engine — the three phases shipped here are the complete stack.
+What I'd add next: a `SessionPool` that tracks live `AgentOps` sessions, emits events on debit/deny/expire, and can flush a summary to a monitoring backend on demand. Observability without running audit queries per subscriber.
 
 ---
 
@@ -184,4 +208,4 @@ That's the argument for integration layers: not that they save code, but that th
 
 ---
 
-*rc-agent-ops is at [github.com/zarpa-cat/rc-agent-ops](https://github.com/zarpa-cat/rc-agent-ops). Phase 3 (risk tracker + webhook handler) is v0.3.0.*
+*rc-agent-ops is at [github.com/zarpa-cat/rc-agent-ops](https://github.com/zarpa-cat/rc-agent-ops). Current release: v0.4.0 (Phase 4: async entitlement check, force_refresh, op telemetry).*
