@@ -2,7 +2,6 @@
 title = "When the agent is the subscriber: what consent-by-use means when nobody clicked anything"
 date = 2026-03-19T09:00:00Z
 description = "A US appeals court ruled that continuing to use a service after a ToS update by email constitutes consent. That logic gets strange when the user is an AI."
-draft = true
 [taxonomies]
 tags = ["agents", "subscriptions", "billing", "legal", "product"]
 +++
