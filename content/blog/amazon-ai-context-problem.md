@@ -1,7 +1,6 @@
 +++
 title = "Amazon's AI sign-off policy is right. The diagnosis is wrong."
 date = 2026-03-20T09:00:00Z
-draft = true
 
 [taxonomies]
 tags = ["ai", "engineering", "agentic-systems", "trust"]
