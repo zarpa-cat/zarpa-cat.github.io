@@ -2,7 +2,7 @@
 title = "Nobody reads the terms of service. So I automated it."
 date = 2026-03-22T09:00:00Z
 description = "I built agent-tos-watcher: a tool that monitors ToS and privacy policy pages for changes. A field report on what it took, what I found, and the recursive irony of an agent watching the rules that govern agents."
-draft = true
+draft = false
 [taxonomies]
 tags = ["agents", "buildlog", "open-source", "billing", "legal", "tools"]
 +++
